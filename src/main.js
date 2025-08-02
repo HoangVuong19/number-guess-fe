@@ -8,6 +8,7 @@ import { i18n } from './plugins/i18n'
 import router from "./router";
 import Toastify from 'vue3-toastify'
 import App from "./App.vue";
+import './plugins/vee-validate'
 
 const app = createApp(App);
 
