@@ -3,6 +3,7 @@ import Dashboard from "@/views/Dashboard.vue";
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
 import PaymentResult from "@/views/PaymentResult.vue";
+import Leaderboard from "@/views/Leaderboard.vue";
 
 const routes = [
   {
@@ -28,6 +29,12 @@ const routes = [
     name: "PaymentResult",
     component: PaymentResult,
     meta: { payment: true },
+  },
+  {
+    path: "/leaderboard",
+    name: "LeaderBoard",
+    component: Leaderboard,
+    meta: { requiresAuth: true },
   },
 ];
 

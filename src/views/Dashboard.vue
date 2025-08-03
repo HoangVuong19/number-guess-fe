@@ -1,10 +1,7 @@
 <template>
   <div class="min-h-screen bg-gray-50">
     <!-- Header -->
-    <GameHeader 
-      :username="userStore.username" 
-      @logout="handleLogout" 
-    />
+    <GameHeader :username="userStore.username" @logout="handleLogout" />
 
     <!-- Main Content -->
     <main class="max-w-4xl mx-auto py-6 sm:px-6 lg:px-8">
@@ -88,6 +85,7 @@ import { userService } from '@/services/user/userService'
 import { useAuthStore } from '@/stores/authStore'
 import { useUserStore } from '@/stores/userStore'
 import GameHeader from '@/components/GameHeader.vue'
+import { toast } from "vue3-toastify";
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -117,10 +115,10 @@ const makeGuess = async (number) => {
 
   isLoading.value = true
   gameResult.value = null
+  const updatedAt = userStore.updatedAt;
 
   try {
-    const response = await userService.guess(number)
-    console.log('Guess response:', response.data)
+    const response = await userService.guess(number, updatedAt)
 
     if (response.data) {
       userStore.setScore(response.data)
@@ -137,7 +135,10 @@ const makeGuess = async (number) => {
     if (error.response?.status === 401) {
       authStore.clearAccessToken()
       router.push('/login')
-    } else {
+    } else if (error.response?.status === 400) {
+      toast.error("User data is out of sync. Please refresh.");
+    }
+    else {
       gameResult.value = {
         isCorrect: false,
         correctNumber: '?',

@@ -11,16 +11,25 @@ export const userService = {
     });
   },
 
-  guess: async (guessNumber) => {
+  guess: async (guessNumber, updatedAt) => {
     const token = localStorage.getItem("accessToken");
     return await axiosClient.post(
       "/guess",
-      { guess: guessNumber },
+      { guess: guessNumber, updatedAt: updatedAt },
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
+  },
+
+  leaderboard: async () => {
+    const token = localStorage.getItem("accessToken");
+    return await axiosClient.get("/leaderboard", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   },
 };

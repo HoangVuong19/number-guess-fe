@@ -8,6 +8,11 @@
         <div class="flex items-center space-x-4">
           <span class="text-gray-700">Xin chào, {{ username }}</span>
 
+          <button @click="goToLeaderboard"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+            Bảng xếp hạng
+          </button>
+
           <!-- Payment Button -->
           <button @click="showPaymentModal = true"
             class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium">
@@ -63,27 +68,6 @@
               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
               <option value="">Tất cả ngân hàng</option>
               <option value="NCB">NCB</option>
-              <option value="SCB">SCB</option>
-              <option value="SACOMBANK">Sacombank</option>
-              <option value="EXIMBANK">Eximbank</option>
-              <option value="MSBANK">MSBANK</option>
-              <option value="NAMABANK">NAMABANK</option>
-              <option value="VNMART">VNMART</option>
-              <option value="VIETINBANK">VIETINBANK</option>
-              <option value="VIETCOMBANK">VIETCOMBANK</option>
-              <option value="HDBANK">HDBANK</option>
-              <option value="DONGABANK">DONGABANK</option>
-              <option value="TPBANK">TPBANK</option>
-              <option value="OJB">OJB</option>
-              <option value="BIDV">BIDV</option>
-              <option value="TECHCOMBANK">TECHCOMBANK</option>
-              <option value="VPBANK">VPBANK</option>
-              <option value="AGRIBANK">AGRIBANK</option>
-              <option value="MBBANK">MBBANK</option>
-              <option value="ACB">ACB</option>
-              <option value="OCB">OCB</option>
-              <option value="SHB">SHB</option>
-              <option value="IVB">IVB</option>
             </select>
           </div>
 
@@ -114,7 +98,10 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { paymentService } from '@/services/payment/paymentService'
+
+const router = useRouter()
 
 defineProps({
   username: {
@@ -178,12 +165,9 @@ const handlePayment = async () => {
       bankCode: paymentForm.value.bankCode || undefined
     }
 
-    console.log('Sending payment request:', paymentData)
-
     const response = await paymentService.createPayment(paymentData)
 
     if (response.data && response.data.success) {
-      console.log('Payment URL created:', response.data.paymentUrl)
 
       // Redirect to VNPay payment page
       window.open(response.data.paymentUrl, '_blank')
@@ -207,5 +191,9 @@ const handlePayment = async () => {
   } finally {
     isProcessing.value = false
   }
+}
+
+const goToLeaderboard = () => {
+  router.push('/leaderboard')
 }
 </script>
