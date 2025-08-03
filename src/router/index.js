@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Dashboard from "@/views/Dashboard.vue";
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
+import PaymentResult from "@/views/PaymentResult.vue";
 
 const routes = [
   {
@@ -21,6 +22,12 @@ const routes = [
     name: "Register",
     component: Register,
     meta: { requiresGuest: true },
+  },
+  {
+    path: "/payment-result",
+    name: "PaymentResult",
+    component: PaymentResult,
+    meta: { payment: true },
   },
 ];
 

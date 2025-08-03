@@ -1,22 +1,10 @@
 <template>
   <div class="min-h-screen bg-gray-50">
     <!-- Header -->
-    <header class="bg-white shadow">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center py-6">
-          <div class="flex items-center">
-            <h1 class="text-2xl font-bold text-gray-900">Game Đoán Số</h1>
-          </div>
-          <div class="flex items-center space-x-4">
-            <span class="text-gray-700">Xin chào, {{ userStore.username }}</span>
-            <button @click="handleLogout"
-              class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium">
-              Đăng xuất
-            </button>
-          </div>
-        </div>
-      </div>
-    </header>
+    <GameHeader 
+      :username="userStore.username" 
+      @logout="handleLogout" 
+    />
 
     <!-- Main Content -->
     <main class="max-w-4xl mx-auto py-6 sm:px-6 lg:px-8">
@@ -99,6 +87,7 @@ import { useRouter } from 'vue-router'
 import { userService } from '@/services/user/userService'
 import { useAuthStore } from '@/stores/authStore'
 import { useUserStore } from '@/stores/userStore'
+import GameHeader from '@/components/GameHeader.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
