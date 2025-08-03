@@ -106,6 +106,8 @@ const fetchUserInfo = async () => {
     if (error.response?.status === 401) {
       authStore.clearAccessToken()
       router.push('/login')
+    } else if (error.response?.status === 404) {
+      toast.error("Không tìm thấy người dùng")
     }
   }
 }
@@ -135,7 +137,7 @@ const makeGuess = async (number) => {
     if (error.response?.status === 401) {
       authStore.clearAccessToken()
       router.push('/login')
-    } else if (error.response?.status === 400) {
+    } else if (error.response?.status === 409) {
       toast.error("User data is out of sync. Please refresh.");
     }
     else {

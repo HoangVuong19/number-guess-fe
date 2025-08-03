@@ -94,6 +94,7 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
 import { authService } from '@/services/auth/authService'
 import { Form, Field, ErrorMessage } from 'vee-validate'
+import { toast } from "vue3-toastify";
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -116,6 +117,7 @@ const handleRegister = async (values) => {
     authStore.setAccessToken(result.data?.token);
     // Redirect to dashboard after successful login
     router.push('/')
+    toast.success("Đăng nhập thành công!");
   }
 }
 </script>

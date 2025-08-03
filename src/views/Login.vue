@@ -80,6 +80,7 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
 import { authService } from '@/services/auth/authService'
 import { Form, Field, ErrorMessage } from 'vee-validate'
+import { toast } from "vue3-toastify";
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -90,16 +91,23 @@ const form = reactive({
 })
 
 const handleLogin = async (values) => {
+  try {
+    const result = await authService.login({
+      username: values.username,
+      password: values.password
+    });
 
-  const result = await authService.login({
-    username: values.username,
-    password: values.password
-  })
-
-  if (result.status === 200) {
-    authStore.setAccessToken(result.data?.token);
-    // Redirect to dashboard after successful login
-    router.push('/')
+    if (result.status === 200) {
+      authStore.setAccessToken(result.data?.token);
+      router.push('/');
+      toast.success("Đăng nhập thành công!");
+    }
+  } catch (error) {
+    if (error.response?.status === 401) {
+      toast.error("Email hoặc mật khẩu không đúng");
+    } else {
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    }
   }
 }
 </script>
